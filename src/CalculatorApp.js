@@ -12,7 +12,7 @@ export const CalculatorApp = () => {
     const handleAdd = ({target}) => {
         const buttonValue = target.textContent;
         setValueEvaluate(() => true);
-        setValue(() => valuesMap(`${value.replace(/^0/, '')}${buttonValue}`));
+        setValue(() => valuesMap(`${value.replace(/^0|^[*]|^[/]/, '')}${buttonValue}`));
     };
 
     // handleClear
@@ -23,10 +23,15 @@ export const CalculatorApp = () => {
 
     // handleEquals
     const handleEquals = () => {
-        setValue(`${eval(value)}`);
-        setValueDisplay(`${eval(value)}`);
-        setValueEvaluate(() => false);
-        setValue('');
+        if (value === '0' || value === '*' || value === '/') {
+            setValue('0');
+            setValueDisplay('0');
+        } else {
+            setValue(`${eval(value)}`);
+            setValueDisplay(`${eval(value)}`);
+            setValueEvaluate(() => false);
+            setValue('');
+        }
     };
 
     return (
